@@ -41,14 +41,18 @@ public class Maze{
 		while(read2.hasNextLine()) {
 			String thisLine = read2.nextLine();
 			char[] thisLineArray = thisLine.toCharArray();
-			for () {
-				
+			for (int j = 0; j < thisLineArray.length; j++) {
+				maze[i][j] = thisLineArray[j];
 			}
+			i++;
 		}
 		read2.close();
     }
     
-
+    public String toString() {
+    	
+    }
+    
     private void wait(int millis){
          try {
              Thread.sleep(millis);
