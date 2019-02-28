@@ -136,9 +136,15 @@ public class Maze{
         All visited spots that are part of the solution are changed to '@'
     */
     private int solve(int row, int col){ //you can add more parameters since this is private
-    	
-    	
-    	for (int j = -1; j <= 1; j += 2) { //j is one or negative one
+        //automatic animation! You are welcome.
+        if(animate){
+
+            clearTerminal();
+            System.out.println(this);
+
+            wait(20);
+        }
+        for (int j = -1; j <= 1; j += 2) { //j is one or negative one
     		char c1 = maze[row + j][col];
     		char c2 = maze[row][col + j];
     		if (c1 == 'E') {
@@ -168,17 +174,6 @@ public class Maze{
     			}
     		}
     	}
-
-        //automatic animation! You are welcome.
-        if(animate){
-
-            clearTerminal();
-            System.out.println(this);
-
-            wait(20);
-        }
-
-        //COMPLETE SOLVE
 
         return -1; //so it compiles
     }
