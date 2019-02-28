@@ -8,7 +8,6 @@ public class Maze{
     private int startc;
 
     /*Constructor loads a maze text file, and sets animate to false by default.
-
       1. The file contains a rectangular ascii maze, made with the following 4 characters:
       '#' - Walls - locations that cannot be moved onto
       ' ' - Empty Space - locations that can be moved onto
@@ -49,11 +48,19 @@ public class Maze{
 			char[] thisLineArray = thisLine.toCharArray();
 			for (int j = 0; j < numCols; j++) {
 				if (thisLineArray[j] == 'S') {
+					if (s) {
+						read2.close();
+						throw new IllegalStateException();
+					}
 					s = true;
 					startr = i;
 					startc = j;
 				}
-				if (thisLineArray[j] == 'E') {
+				else if (thisLineArray[j] == 'E') {
+					if(e) {
+						read2.close();
+						throw new IllegalStateException();
+					}
 					e = true;
 				}
 				maze[i][j] = thisLineArray[j];
@@ -108,8 +115,6 @@ public class Maze{
   
     		maze[startr][startc] = '@';
     		return solve(startr, startc);
-
-            //return solve(???,???);
 
     }
 
