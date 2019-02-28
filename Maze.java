@@ -2,9 +2,10 @@ import java.util.*;
 import java.io.*;
 public class Maze{
 
-
     private char[][]maze;
     private boolean animate;//false by default
+    private int startr;
+    private int startc;
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -26,6 +27,8 @@ public class Maze{
 
     public Maze(String filename) throws FileNotFoundException{
         //COMPLETE CONSTRUCTOR
+    	animate = false;
+    	
     	File mazefile = new File(filename);
 		Scanner read1 = new Scanner(mazefile);
 		String line1 = read1.nextLine();
@@ -33,20 +36,33 @@ public class Maze{
 		int numCols = line1.length();
 		while(read1.hasNextLine()) {
 			numRows++;
+			read1.nextLine();
 		}
 		read1.close();
+		
 		maze = new char[numRows][numCols];
 		Scanner read2 = new Scanner(mazefile);
-		int i = 0;
-		while(read2.hasNextLine()) {
+		boolean s = false;
+		boolean e = false;
+		for (int i = 0; i < numRows; i++) {
 			String thisLine = read2.nextLine();
 			char[] thisLineArray = thisLine.toCharArray();
-			for (int j = 0; j < thisLineArray.length; j++) {
+			for (int j = 0; j < numCols; j++) {
+				if (thisLineArray[j] == 'S') {
+					s = true;
+					startr = i;
+					startc = j;
+				}
+				if (thisLineArray[j] == 'E') {
+					e = true;
+				}
 				maze[i][j] = thisLineArray[j];
 			}
-			i++;
 		}
 		read2.close();
+		if (!(s && e)) {
+			throw new IllegalStateException();
+		}
     }
     
     public String toString() {
@@ -83,7 +99,8 @@ public class Maze{
     public int solve(){
 
             //find the location of the S. 
-
+    		maze[startr][startc] = '@';
+    		return solve(startr, startc);
 
             //erase the S
 
@@ -112,7 +129,7 @@ public class Maze{
         All visited spots that are part of the solution are changed to '@'
     */
     private int solve(int row, int col){ //you can add more parameters since this is private
-
+    	
 
         //automatic animation! You are welcome.
         if(animate){
