@@ -66,7 +66,14 @@ public class Maze{
     }
     
     public String toString() {
-    	
+    	StringBuffer s = new StringBuffer();
+    	for (char[] row : maze) {
+    		for (char c : row) {
+    			s.append(c);
+    		}
+    		s.append("\n");
+    	}
+    	return s.toString();
     }
     
     private void wait(int millis){
@@ -98,14 +105,9 @@ public class Maze{
     */
     public int solve(){
 
-            //find the location of the S. 
+  
     		maze[startr][startc] = '@';
     		return solve(startr, startc);
-
-            //erase the S
-
-
-            //and start solving at the location of the s.
 
             //return solve(???,???);
 
@@ -130,6 +132,37 @@ public class Maze{
     */
     private int solve(int row, int col){ //you can add more parameters since this is private
     	
+    	
+    	for (int j = -1; j <= 1; j += 2) { //j is one or negative one
+    		char c1 = maze[row + j][col];
+    		char c2 = maze[row][col + j];
+    		if (c1 == 'E') {
+    			return 1;
+    		}
+    		if (c1 == ' ') {
+    			maze[row + j][col] = '@';
+    			int followingPath = solve(row + j, col);
+    			if (followingPath == -1) {
+    				maze[row + j][col] = '.';
+    			}
+    			else {
+    				return ++followingPath;
+    			}
+    		}
+    		if (c2 == 'E') {
+    			return 1;
+    		}
+    		if (c2 == ' ') {
+    			maze[row][col + j] = '@';
+    			int followingPath = solve(row, col + j);
+    			if (followingPath == -1) {
+    				maze[row][col + j] = '.';
+    			}
+    			else {
+    				return ++followingPath;
+    			}
+    		}
+    	}
 
         //automatic animation! You are welcome.
         if(animate){
